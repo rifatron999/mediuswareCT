@@ -13,7 +13,7 @@ Php artisan serve
 ```
 
 
-commands
+commands 
 ```
 php artisan make:model Transaction -m
 
