@@ -11,6 +11,10 @@ class TransactionRepository implements TransactionRepositoryInterface{
 	public function getTransactions(){
 		$transactions = Transaction::where('user_id',auth()->user()->id)
         	->get();
+
+    	$user = User::where('id',auth()->user()->id)->first();
+		$transactions['balance'] = $user['balance'];
+
 		return $transactions;
 	}
 
