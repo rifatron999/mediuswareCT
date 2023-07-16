@@ -7,6 +7,7 @@ use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Http\Requests\DepositCreateRequest;
+use App\Http\Requests\WithdrawalCreateRequest;
 use Validator;
 use App\Repositories\Interfaces\TransactionRepositoryInterface;
 
@@ -34,7 +35,7 @@ class TransactionController extends BaseController
         if(count($transactions)){
             return $this->sendResponse($transactions->toArray(), 'Deposit Transactions retrived');
         }else{
-            return $this->sendError('No transaction Found', $transactions->toArray()); 
+            return $this->sendError('No Deposit Transaction Found', $transactions->toArray()); 
         }
     }
 
@@ -42,6 +43,24 @@ class TransactionController extends BaseController
     {
          $transaction = $this->transactionRepository->createDeposit($request->all());
          
-         return $this->sendResponse($transaction->toArray(), 'Deposit created successfully');
+         return $this->sendResponse($transaction->toArray(), 'Deposited successfully');
     }
+
+    public function withdrawalGet(Request $request)
+    {
+        $transactions = $this->transactionRepository->getWithdrawal();
+        if(count($transactions)){
+            return $this->sendResponse($transactions->toArray(), 'Withdrawal Transactions retrived');
+        }else{
+            return $this->sendError('No Withdrawal Transaction Found', $transactions->toArray()); 
+        }
+    }
+
+    public function withdrawalStore(WithdrawalCreateRequest $request)
+    {
+         $transaction = $this->transactionRepository->createWithdrawal($request->all());
+         
+         return $this->sendResponse($transaction->toArray(), 'Withdrawal successfull');
+    }
+
 }

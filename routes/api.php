@@ -40,5 +40,8 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('deposit',[TransactionController::class,'depositGet']);
     Route::post('deposit',[TransactionController::class,'depositStore']);
 
+    Route::get('withdrawal',[TransactionController::class,'withdrawalGet']);
+    Route::post('withdrawal',[TransactionController::class,'withdrawalStore']);
+
     Route::get('logout', [RegisterController::class,'logout']);
 });
