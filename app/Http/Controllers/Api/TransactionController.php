@@ -60,7 +60,7 @@ class TransactionController extends BaseController
     {
          $transaction = $this->transactionRepository->createWithdrawal($request->all());
          
-         return $this->sendResponse($transaction->toArray(), 'Withdrawal successfull');
+         return $this->sendResponse($transaction/*->toArray()*/, 'Withdrawal successfull');
     }
 
 }

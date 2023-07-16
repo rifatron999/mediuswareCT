@@ -44,15 +44,22 @@ class TransactionRepository implements TransactionRepositoryInterface{
 		$data['user_id'] = auth()->user()->id;
 		$data['transaction_type'] = 'withdraw';
 		$data['date'] = Carbon::now()->format("Y-m-d H:i:s");
-		$data['fee'] = $thisMonthwithdrawAmount = $rate = 0;
+		$data['fee'] = $thisMonthwithdrawAmount = $totalwithdrawAmount = $rate = 0;
 		$isFriday = Carbon::now()->isFriday();
-		$thisMonthwithdraw = $this->getWithdrawal();
-
-		foreach($thisMonthwithdraw as $key => $tmw){
-			if( carbon::create($tmw['date'])->isCurrentMonth() ){
-				$thisMonthwithdrawAmount = $tmw['amount'] + $thisMonthwithdrawAmount;
+		$totalwithdraw = $this->getWithdrawal();
+		//dd($totalwithdraw);
+		$user = User::where('id',auth()->user()->id)->first();
+		$balance = $user['balance'];
+		//
+		foreach($totalwithdraw as $key => $tw){
+			if( carbon::create($tw['date'])->isCurrentMonth() ){
+				$thisMonthwithdrawAmount = $tw['amount'] + $thisMonthwithdrawAmount ;
 			}
+			$totalwithdrawAmount = $tw['amount'] + $totalwithdrawAmount;
 		}
+
+		$thisMonthwithdrawAmount = $thisMonthwithdrawAmount + $data['amount'];
+		$totalwithdrawAmount = $totalwithdrawAmount + $data['amount'];
 
 		if(auth()->user()->account_type == 'individual' && !$isFriday){
 			$rate = 0.015;
@@ -68,13 +75,18 @@ class TransactionRepository implements TransactionRepositoryInterface{
 			$data['fee'] = $data['amount'] * $rate ;
 		}
 
+		$balance = $balance - ( $data['amount'] + $data['fee'] );
 		
-		
+		if($balance <= 0){
+			$response = [
+	            'success' => false,
+	            'message' => 'Insufficient Fund',
+	        ];
 
-		$user = User::where('id',auth()->user()->id)->first();
-		$balance = $user['balance'] - ( $data['amount'] + $data['fee'] );
+	        return $response;
+		}
 
-		//dd('w',$data['amount'],'tm',$thisMonthwithdrawAmount,'f',$data['fee'],'b',$balance,auth()->user()->account_type);
+		dd('withdraw amount',$data['amount'],'total mwithdraw amount'/*,$totalwithdrawAmount*/,'this month withdraw',$thisMonthwithdrawAmount,'f',$data['fee'],'b',$balance,auth()->user()->account_type);
         $user->update( ['balance' => $balance] );
 		return Transaction::create($data);
 	}
