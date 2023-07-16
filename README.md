@@ -1,8 +1,37 @@
+CT
+https://drive.google.com/file/d/1K5T3UHuKIKG1m-6gMHsDDrKJAPEob5Jc/view 
+Git link: https://github.com/rifatron999/mediuswareCT 
+Video link : https://drive.google.com/drive/folders/1bB8vebVO8lBOKPdtSk02jKkN6G2NEZ-Q 
+Note link : https://www.evernote.com/shard/s639/sh/d9c852b4-2642-59b0-2c50-a9fa1746622c/baL2vzYWm7utJb_T1Z_pz9xbgJWY9SKSXpOmEjRkEWQBUY2VLNqoGNntGw 
+Late Reason : Heavy Load shedding in my area proof: https://www.facebook.com/groups/demragroup/permalink/2185698078287474/?mibextid=Nif5oz  
+
 To run the project 
 ```
 Composer install
 php artisan migrate
 Php artisan serve
+```
+
+
+commands
+```
+php artisan make:model Transaction -m
+
+.env
+
+composer require laravel/sanctum
+php artisan vendor:publish
+
+php artisan migrate
+php artisan ser
+
+php artisan make:controller BaseController
+php artisan make:controller Api/RegisterController
+php artisan make:controller Api/TransactionController
+
+php artisan make:request UserCreateRequest
+php artisan make:request LoginRequest
+php artisan make:request DepositCreateRequest
 ```
 
 
