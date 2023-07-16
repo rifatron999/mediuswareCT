@@ -20,7 +20,7 @@ class TransactionController extends BaseController
     
     public function index(Request $request)
     {
-        $transactions = $this->transactionRepository->getTransactions($request->all());
+        $transactions = $this->transactionRepository->getTransactions();
         if(count($transactions)){
             return $this->sendResponse($transactions->toArray(), 'Transactions retrived');
         }else{

@@ -7,19 +7,16 @@ use App\Models\User;
 
 class TransactionRepository implements TransactionRepositoryInterface{
 
-	public function getTransactions($data){
-		$transactions = Transaction::query();
-        if(isset( $data['name'] )){
-            $transactions = $transactions->where('name','LIKE','%'.$data['name'].'%');
-        }
-        $transactions = $transactions->get();
-
+	public function getTransactions(){
+		$transactions = Transaction::where('user_id',auth()->user()->id)
+        	->get();
 		return $transactions;
 	}
 
 	public function getDeposit(){
-        $transactions = Transaction::where('user_id',auth()->user()->id)->get();
-        //dd($transactions);
+        $transactions = Transaction::where('user_id',auth()->user()->id)
+        	->where('transaction_type',"deposit")
+        	->get();
 		return $transactions;
 	}
 
