@@ -86,7 +86,7 @@ class TransactionRepository implements TransactionRepositoryInterface{
 	        return $response;
 		}
 
-		dd('withdraw amount',$data['amount'],'total mwithdraw amount'/*,$totalwithdrawAmount*/,'this month withdraw',$thisMonthwithdrawAmount,'f',$data['fee'],'b',$balance,auth()->user()->account_type);
+		//dd('withdraw amount',$data['amount'],'total mwithdraw amount'/*,$totalwithdrawAmount*/,'this month withdraw',$thisMonthwithdrawAmount,'f',$data['fee'],'b',$balance,auth()->user()->account_type);
         $user->update( ['balance' => $balance] );
 		return Transaction::create($data);
 	}
